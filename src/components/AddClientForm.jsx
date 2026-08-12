@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import ToastContext from "../context/ToastContext";
 
 function AddClientForm({onAddClient}){
 
     const [name, setName] = useState("");
     const [platform, setPlatform] = useState("");
     const nameInputRef = useRef(null);
+    const { showToast } = useContext(ToastContext);
 
     useEffect(() => {
         nameInputRef.current.focus();

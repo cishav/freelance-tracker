@@ -1,11 +1,14 @@
-import { useState, memo } from "react";
+import { useState, memo, useContext } from "react";
 import TimeSinceAdded from "./TimeSinceAdded";
+import { Link } from "react-router-dom";
+import ToastContext from "../context/ToastContext";
 
 function ClientCard({ name, platform, status, addedAt, onMarkPaid, onUpdate, onDelete }){
 
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(name);
     const [editPlatform, setEditPlatform] = useState(platform);
+    const { showToast } = useContext(ToastContext);
 
     let paidMessage;
     if(status === 'Paid'){
@@ -36,7 +39,9 @@ function ClientCard({ name, platform, status, addedAt, onMarkPaid, onUpdate, onD
 
     return (
         <div className="client-card">
-            <h2>Name: {name}</h2>
+            <h2>Name: 
+                <Link to={`/clients/${addedAt}`}>{name}</Link>
+            </h2>
             <p>Platform: {platform}</p>
             <p>Status : {status}</p>
             <TimeSinceAdded addedAt={addedAt} />

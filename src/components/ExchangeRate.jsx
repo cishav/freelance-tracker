@@ -21,7 +21,7 @@ function ExchangeRate(){
                 setRate(data.rates.NPR);
                 setError(null);
             }catch(err){
-                setError(err);
+                setError(err.message);
             }finally{
                 setLoading(false);
             }
@@ -31,18 +31,24 @@ function ExchangeRate(){
     }, []);
 
     if(loading){
-        return <p>Loading Exchange Rate...</p>;
+        return (
+            <div className="exchange-rate">
+                <div className="skeleton"></div>
+            </div>
+        )
     }
 
     if(error){
-        return <p>Could not load exchnage rate : {error}</p>;
+        return (
+        <div className="exchange-rate">
+            <p>Could not load exchange rate: {error}</p>
+        </div>
+        );
     }
 
     return (
         <div className="exchange-rate">
-            {loading && <p>Loading exchange rate...</p>}
-            {error && <p>Could not load exchange rate: {error}</p>}
-            {!loading && !error && <p>1 USD = {rate.toFixed(2)} NPR</p>}
+            <p>1 USD = {rate.toFixed(2)} NPR</p>
         </div>
     )
 }

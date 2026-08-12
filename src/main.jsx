@@ -5,15 +5,21 @@ import App from './App.jsx'
 import { CurrencyProvider } from './context/CurrencyContext.jsx'
 import { ClientsProvider } from './context/ClientsContext.jsx'
 import './index.css'
+import { ToastProvider } from './context/ToastContext.jsx'
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <ClientsProvider>
-        <CurrencyProvider>
-          <App />
-        </CurrencyProvider>
-      </ClientsProvider>
-    </BrowserRouter>
+    <ThemeProvider>
+      <ToastProvider>
+        <BrowserRouter>
+          <ClientsProvider>
+            <CurrencyProvider>
+              <App />
+            </CurrencyProvider>
+          </ClientsProvider>
+        </BrowserRouter>
+      </ToastProvider>
+    </ThemeProvider>
   </StrictMode>,
 )
