@@ -7,6 +7,7 @@ function AddClientForm({onAddClient}){
     const [platform, setPlatform] = useState("");
     const nameInputRef = useRef(null);
     const { showToast } = useContext(ToastContext);
+    const [paymentAmount, setPaymentAmount] = useState('');
 
     useEffect(() => {
         nameInputRef.current.focus();
@@ -14,9 +15,10 @@ function AddClientForm({onAddClient}){
 
     function handleSubmit(e){
         e.preventDefault();
-        onAddClient({name, platform, status:"In Progress"});
+        onAddClient({name, platform, status:"In Progress", paymentAmount: Number(paymentAmount) || 0});
         setName("");
         setPlatform("");
+        setPaymentAmount(0);
     }
 
     return (
@@ -29,6 +31,11 @@ function AddClientForm({onAddClient}){
             <div className="form-group">
                 <label>Platform</label>
                 <input type="text" value={platform} onChange={(e) => setPlatform(e.target.value)} placeholder="e.g. Upwork, Fiverr, Direct"/>
+            </div>
+
+            <div className="form-group">
+                <label>Payment Amount (In USD)</label>
+                <input type="number" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} placeholder="e.g. 1 USD"/>
             </div>
             
             <button className="btn-primary" type="submit">Add Client</button>

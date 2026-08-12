@@ -206,6 +206,15 @@ body {
   margin-bottom: 6px;
 }
 
+.client-card h2 a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.client-card h2 a:hover {
+  text-decoration: underline;
+}
+
 .client-card p {
   font-size: 14px;
   color: #6b7280;
@@ -286,7 +295,7 @@ button:hover {
   color: #374151;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"] {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #d1d5db;
@@ -294,7 +303,7 @@ input[type="text"] {
   font-size: 14px;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="number"]:focus {
   outline: none;
   border-color: #4f46e5;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
@@ -378,10 +387,15 @@ input[type="text"]:focus {
 }
 
 .dark-mode input[type="text"],
+.dark-mode input[type="number"],
 .dark-mode select {
   background: #374151;
   color: #f3f4f6;
   border-color: #4b5563;
+}
+
+.dark-mode label{
+  color: #f3f4f6;
 }
 
 .dark-mode .app-nav a {

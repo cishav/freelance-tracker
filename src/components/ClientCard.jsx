@@ -2,13 +2,20 @@ import { useState, memo, useContext } from "react";
 import TimeSinceAdded from "./TimeSinceAdded";
 import { Link } from "react-router-dom";
 import ToastContext from "../context/ToastContext";
+import CurrencyContext from "../context/CurrencyContext";
 
-function ClientCard({ name, platform, status, addedAt, onMarkPaid, onUpdate, onDelete }){
+function ClientCard({ name, platform, status, paymentAmount, addedAt, onMarkPaid, onUpdate, onDelete }){
 
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState(name);
     const [editPlatform, setEditPlatform] = useState(platform);
+    const [editPaymentAmount, setEditPaymentAmount] = useState(paymentAmount);
     const { showToast } = useContext(ToastContext);
+    const { currency, rate } = useContext(CurrencyContext);
+
+    const displayAmount = currency === "NPR" && rate
+        ? `NPR ${(paymentAmount * rate).toFixed(2)}`
+        : `USD ${paymentAmount.toFixed(2)}`;
 
     let paidMessage;
     if(status === 'Paid'){
@@ -16,7 +23,7 @@ function ClientCard({ name, platform, status, addedAt, onMarkPaid, onUpdate, onD
     }
 
     function handleSave(){
-        onUpdate({ name: editName, platform: editPlatform });
+        onUpdate({ name: editName, platform: editPlatform, paymentAmount: Number(editPaymentAmount) || 0 });
         setIsEditing(false);
     }
 
@@ -29,6 +36,9 @@ function ClientCard({ name, platform, status, addedAt, onMarkPaid, onUpdate, onD
                 <div className="form-group">
                     <input type="text" value={editPlatform} placeholder="Edit Platform" onChange={(e) => setEditPlatform(e.target.value)} />
                 </div>
+                <div className="form-group">
+                    <input type="number" value={editPaymentAmount} placeholder="Edit Payment Amount" onChange={(e) => setEditPaymentAmount(e.target.value)} />
+                </div>
                 <div className="card-actions">
                     <button className="btn-primary" onClick={handleSave}>Save</button>
                     <button className="btn-secondary" onClick={() => setIsEditing(false)}>Cancel</button>
@@ -39,11 +49,10 @@ function ClientCard({ name, platform, status, addedAt, onMarkPaid, onUpdate, onD
 
     return (
         <div className="client-card">
-            <h2>Name: 
-                <Link to={`/clients/${addedAt}`}>{name}</Link>
-            </h2>
+            <h2>Name: <Link to={`/clients/${addedAt}`}>{name}</Link></h2>
             <p>Platform: {platform}</p>
             <p>Status : {status}</p>
+            <p>Payment Amount : {displayAmount}</p>
             <TimeSinceAdded addedAt={addedAt} />
             {paidMessage}
             <div className="card-actions">

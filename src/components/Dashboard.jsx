@@ -3,7 +3,7 @@ import CurrencyContext from "../context/CurrencyContext";
 
 function Dashboard({clients}){
 
-    const {currency, setCurrency} = useContext(CurrencyContext);
+    const {currency, setCurrency, rate} = useContext(CurrencyContext);
 
     const total = clients.length;
     const paidCount = useMemo(() => {
@@ -13,13 +13,15 @@ function Dashboard({clients}){
 
     function handleExport(){
         // 1. Header row — the column titles
-        const headers = ["Name", "Platform", "Status", "Added On"];
+        const headers = ["Name", "Platform", "Status", "Payment Amount (USD)", "Payment Amount (NPR)", "Added On"];
 
         // 2. One row per client, converting each into an array of values
         const rows = clients.map((client) => [
             client.name,
             client.platform,
             client.status,
+            client.paymentAmount.toFixed(2),
+            (client.paymentAmount * rate).toFixed(2),
             new Date(client.addedAt).toLocaleDateString(),
         ]);
 

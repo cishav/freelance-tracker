@@ -58,6 +58,7 @@ function HomePage() {
             platform={client.platform}
             status={client.status}
             addedAt={client.addedAt}
+            paymentAmount={client.paymentAmount}
             onMarkPaid={() => handleMarkPaid(index)}
             onDelete={() => handleDeleteClient(index)}
             onUpdate={(updatedData) => handleUpdateClient(index, updatedData)}

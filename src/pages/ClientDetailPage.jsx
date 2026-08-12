@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import ClientsContext from "../context/ClientsContext";
 import TimeSinceAdded from "../components/TimeSinceAdded";
 import ToastContext from "../context/ToastContext";
+import CurrencyContext from "../context/CurrencyContext";
 
 function ClientDetailPage(){
 
@@ -24,6 +25,12 @@ function ClientDetailPage(){
 
     const { showToast } = useContext(ToastContext);
 
+    const { currency } = useContext(CurrencyContext);
+
+    const displayAmount = currency === "NPR" && rate
+        ? `NPR ${(client.paymentAmount * rate).toFixed(2)}`
+        : `USD ${client.paymentAmount.toFixed(2)}`;
+
     function handleSubmit(e){
         e.preventDefault();
         handleAddNote(client.addedAt, { text: note, timestamp: Date.now() });
@@ -35,6 +42,7 @@ function ClientDetailPage(){
             <h2>Name: {client.name}</h2>
             <p>Platform: {client.platform}</p>
             <p>Status : {client.status}</p>
+            <p>Payment Amount : {displayAmount}</p>
             <TimeSinceAdded addedAt={client.addedAt} />
 
             <form className="form-card" onSubmit={handleSubmit}>
