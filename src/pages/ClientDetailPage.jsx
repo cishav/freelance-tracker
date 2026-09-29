@@ -25,7 +25,7 @@ function ClientDetailPage(){
 
     const { showToast } = useContext(ToastContext);
 
-    const { currency } = useContext(CurrencyContext);
+    const { currency, rate } = useContext(CurrencyContext);
 
     const displayAmount = currency === "NPR" && rate
         ? `NPR ${(client.paymentAmount * rate).toFixed(2)}`
